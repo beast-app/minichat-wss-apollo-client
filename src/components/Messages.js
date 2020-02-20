@@ -41,7 +41,6 @@ function subcribeToNewMessages(subscribeToMore) {
   const unsubscribe = subscribeToMore({
     document: MESSAGE_SUBSCRIPTION,
     updateQuery: (prev, { subscriptionData }) => {
-      console.log('zzz prev', prev);
       if (!subscriptionData.data) return prev;
       const { newMessage } = subscriptionData.data;
 
@@ -76,7 +75,7 @@ export default function Messages() {
 
   // scroll to bottom of chat on initial load.
   useEffect(() => {
-    if (bottomRef.current && containerRef.current) {
+    if (containerRef && bottomRef.current && containerRef.current) {
       containerRef.current.scrollTo(0, bottomRef.current.offsetTop);
     }
   }, [bottomRef, containerRef, messagesData]);
@@ -95,7 +94,7 @@ export default function Messages() {
 
   return (
     <Container ref={containerRef}>
-      {messagesData.messages.map((message, i) => (
+      {messagesData && messagesData.messages && messagesData.messages.map((message, i) => (
         <Message message={message} />
       ))}
 
